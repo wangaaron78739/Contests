@@ -20,5 +20,7 @@ def main(cases, filenames):
         shutil.copyfile(template_file,filename)
         panel.renderable += f"Generated {filename}{' with cases' if cases else ''}.\n"
     panel.renderable += f"Done."
+    if not os.path.exists("samples"):
+        os.makedirs("samples")
     print(panel)
 
