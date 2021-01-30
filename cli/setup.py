@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open("README.md") as f:
     readme = f.read()
@@ -12,11 +12,14 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     licence="MIT",
-    packages=find_packages(include="cputils"),
-    package_data={"": ["../libs/*.cpp"]},
-    entry_points={
-        "console_script": [
-            "codeforces_gen=cputils.codeforces_gen:codeforces_gen"
-        ]
-    }
+    package=["cputils"],
+    package_data={"": ["../../libs/*.cpp"]},
+    include_package_data=True,
+    python_requires=">=3.7",
+    entry_points = {
+        "console_scripts": ["codeforces_gen=cputils.codeforces_gen:main",
+                            "runsamples=cputils.runsamples:main"],
+    },
+    install_requires=["click","rich"],
+    
 )

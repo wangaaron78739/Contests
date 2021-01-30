@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
 
-import argparse
-import shutil
+import click
+from rich import print
+from rich.panel import Panel
+import pkg_resources
 import os
+import shutil
 
-def codeforces_gen():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--cases',
-                        action='store_true',
-                        help='generate cases template for codeforces')
-    parser.add_argument('filenames',
-                        nargs='*',
-                        help='filenames to be created')
-    args = parser.parse_args()
+@click.command()
+@click.option("-c","--cases", is_flag=True)
+@click.argument("filenames", nargs=-1)
+def main(cases, filenames):
 
-    for filename in list(map(lambda x: x+'.cpp',args.filenames)):
-        if args.cases:
-            print('getcwd:',os.getcwd())
-            print('__file__', __file__)
-            # shutil.copyfile()
-            print("have cases")
-        else:
-            # shutil.copyfile()
-            print("no cases")
+    panel = Panel(f"", title="[red]Generating Codeforces Template Files", highlight=True, expand=False)
+
+    template_file = pkg_resources.resource_filename(__name__,"../../libs/cf_template_cases.cpp") if cases \
+                    else pkg_resources.resource_filename(__name__,"../../libs/cf_template.cpp")
+    for filename in [f+".cpp" for f in filenames]:
+        shutil.copyfile(template_file,filename)
+        panel.renderable += f"Generated {filename}{' with cases' if cases else ''}.\n"
+    panel.renderable += f"Done."
+    print(panel)
+
