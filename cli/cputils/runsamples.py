@@ -115,7 +115,7 @@ def main(filename, nocompile, nodebug):
             passed = all(diff)
             result_table.add(input_filename, COLUMNS.OUTPUT, "".join(map(lambda x: highlight_diff(*x), zip(run_lines, diff))))
             result_table.add(input_filename, COLUMNS.EXPECTED, "".join(map(lambda x: highlight_diff(*x), zip(out_lines, diff))))
-            if diff:
+            if not passed:
                 result_table.add(input_filename, COLUMNS.MISMATCH, "\n".join(
                     map(lambda idx: f"Line {idx}: expected: {run_lines[idx].strip()} output: {out_lines[idx].strip()}",
                         [i for i, x in enumerate(diff) if not x])))
@@ -127,5 +127,5 @@ def main(filename, nocompile, nodebug):
     result_table.print()
 
     console.print(
-        Panel(f"{success_count} / {test_count} tests passed.", title = apply_style(f"{filename} - Test Cases {'Passed' if success_count == test_count else 'Failed'}", "bold red"), expand = False)
+        Panel(f"{success_count} / {test_count} tests passed.", title = apply_style(f"{filename} - Test Cases {'Passed' if success_count == test_count else 'Failed'}", "bold green" if success_count == test_count else "bold red"), expand = False)
     )
