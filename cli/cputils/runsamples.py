@@ -58,6 +58,10 @@ class ResultTable:
         self.table_data[test_name][attr] = value
         self.built = False
 
+def highlight_diff(line, same):
+    return f"{'' if same else '[bold red]'}{line}{'' if same else '[/bold red]'}"
+        
+    
 @click.command()
 @click.argument("filename", nargs=1)
 @click.option("--nocompile", is_flag=True, default=False)
@@ -107,14 +111,14 @@ def main(filename, nocompile, nodebug):
                 console.error("Program output has different length from expected output")
                 continue
 
-            diff = [i for i, x in enumerate([a==b for a,b in zip(run_lines, out_lines)]) if not x]
-
-            passed = not diff
-            result_table.add(input_filename, COLUMNS.OUTPUT, "".join(run_lines))
-            result_table.add(input_filename, COLUMNS.EXPECTED, "".join(out_lines))
+            diff = [a==b for a,b in zip(run_lines, out_lines)]
+            passed = all(diff)
+            result_table.add(input_filename, COLUMNS.OUTPUT, "".join(map(lambda x: highlight_diff(*x), zip(run_lines, diff))))
+            result_table.add(input_filename, COLUMNS.EXPECTED, "".join(map(lambda x: highlight_diff(*x), zip(out_lines, diff))))
             if diff:
                 result_table.add(input_filename, COLUMNS.MISMATCH, "\n".join(
-                    map(lambda idx: f"Line {idx}: expected: {run_lines[idx].strip()} output: {out_lines[idx].strip()}", diff)))
+                    map(lambda idx: f"Line {idx}: expected: {run_lines[idx].strip()} output: {out_lines[idx].strip()}",
+                        [i for i, x in enumerate(diff) if not x])))
                 
 
             success_count += passed
