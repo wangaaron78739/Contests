@@ -18,7 +18,9 @@ setup(
     python_requires=">=3.7",
     entry_points = {
         "console_scripts": ["codeforces_gen=cputils.codeforces_gen:main",
-                            "runsamples=cputils.runsamples:main"],
+                            "runsamples=cputils.runsamples:main",
+                            "dbrun=cputils.dbrun:main",
+                            ],
     },
     install_requires=["click","rich"],
     

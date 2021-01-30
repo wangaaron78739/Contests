@@ -102,7 +102,7 @@ def main(filename, nocompile, nodebug):
 
         start_time = time.perf_counter()
         if os.system(f"./{filename} < {input_filename} > {run_filename}") != 0:
-            error(f"Process return non zero exit code.")
+            error(f"Process return non zero exit status.")
             result_table.add(input_filename, COLUMNS.RESULT, RESULT.FAILED.value)
             continue
 
@@ -123,7 +123,7 @@ def main(filename, nocompile, nodebug):
             result_table.add(input_filename, COLUMNS.EXPECTED, "".join(out_lines))
             if diff:
                 result_table.add(input_filename, COLUMNS.MISMATCH, "\n".join(
-                    map(lambda idx: f"Line {idx}: expected: {run_lines[idx].strip()} output:{out_lines[idx].strip()}", diff)))
+                    map(lambda idx: f"Line {idx}: expected: {run_lines[idx].strip()} output: {out_lines[idx].strip()}", diff)))
                 
 
             success_count += passed
