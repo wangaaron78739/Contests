@@ -7,22 +7,13 @@ import glob
 import time
 import datetime
 from rich import print, box
-from rich.console import Console
+from cputils.utils import ConsoleUtils, apply_style
 from rich.table import Table
 from rich.panel import Panel
 from enum import Enum, IntEnum
 
 
-console = Console()
-
-def error(message):
-    console.print(f"ERROR: {message}", style = "bold red")
-
-def message(message, style):
-    console.print(f"{message}", style = style)
-
-def apply_style(message, style):
-    return f"[{style}]{message}[/{style}]"
+console = ConsoleUtils()
 
 class COLUMNS(IntEnum):
     NAME = 0,
@@ -73,12 +64,12 @@ class ResultTable:
 @click.option("--nodebug", is_flag=True, default=False)
 def main(filename, nocompile, nodebug):
     if not os.path.exists(filename+'.cpp'):
-        error(f"{filename}.cpp not found.")
+        console.error(f"{filename}.cpp not found.")
         return
     if not nocompile:
         console.print(f"[bold yellow][{'PROD' if nodebug else 'DEBUG'} MODE][/bold yellow] Compiling {filename}.cpp with c++17")
         if os.system(f"g++ {filename}.cpp -o samples/{filename} -std=gnu++17 {'' if nodebug else '-DAARON_DEBUG'}") != 0:
-            error(f"Compilation failed for {filename}.")
+            console.error(f"Compilation failed for {filename}.")
             return
 
     root_dir = os.getcwd()
@@ -88,7 +79,7 @@ def main(filename, nocompile, nodebug):
     output_files = sorted(glob.glob(f"{filename}*.out"))
 
     if {f for f in map(lambda x: x[:-3], input_files)} != {f for f in map(lambda x: x[:-4], output_files)}:
-        error(f"Input and output files do not match.")
+        console.error(f"Input and output files do not match.")
         return
 
     success_count = 0
@@ -102,7 +93,7 @@ def main(filename, nocompile, nodebug):
 
         start_time = time.perf_counter()
         if os.system(f"./{filename} < {input_filename} > {run_filename}") != 0:
-            error(f"Process return non zero exit status.")
+            console.error(f"Process return non zero exit status.")
             result_table.add(input_filename, COLUMNS.RESULT, RESULT.FAILED.value)
             continue
 
@@ -113,7 +104,7 @@ def main(filename, nocompile, nodebug):
             run_lines = run_file.readlines()
             out_lines = out_file.readlines()
             if len(run_lines) != len(out_lines):
-                error("Program output has different length from expected output")
+                console.error("Program output has different length from expected output")
                 continue
 
             diff = [i for i, x in enumerate([a==b for a,b in zip(run_lines, out_lines)]) if not x]
