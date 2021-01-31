@@ -93,7 +93,7 @@ def main(filename, nocompile, nodebug):
     test_count = len(input_files)
 
     result_table = ResultTable(test_count)
-    with Live(console = console, refresh_per_second = 4) as live:
+    with Live(console = console, refresh_per_second = 10) as live:
 
         for input_filename, output_filename in zip(input_files, output_files):
             run_filename = f"run_{output_filename}"
