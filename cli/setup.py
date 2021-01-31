@@ -20,8 +20,9 @@ setup(
         "console_scripts": ["codeforces_gen=cputils.codeforces_gen:main",
                             "runsamples=cputils.runsamples:main",
                             "dbrun=cputils.dbrun:main",
+                            "cf_sample_gen=cputils.cf_sample_gen:main",
                             ],
     },
-    install_requires=["click","rich"],
+    install_requires=["click","rich", "requests", "beautifulsoup4"],
     
 )
