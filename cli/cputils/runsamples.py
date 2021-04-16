@@ -18,12 +18,13 @@ import itertools
 console = ConsoleUtils()
 
 class COLUMNS(IntEnum):
-    NAME = 0,
-    EXPECTED = 1,
-    OUTPUT = 2,
-    MISMATCH = 3,
-    TIME = 4,
-    RESULT = 5
+    NAME = 0, 
+    INPUT = 1,
+    EXPECTED = 2,
+    OUTPUT = 3,
+    MISMATCH = 4,
+    TIME = 5,
+    RESULT = 6
 
 class RESULT(Enum):
     PASSED = "[bold green]PASSED"
@@ -109,7 +110,9 @@ def main(filename, nocompile, nodebug):
             execution_time = (time.perf_counter()-start_time)
             result_table.add(input_filename, COLUMNS.TIME, f"{execution_time:.3f}s")
 
-            with open(run_filename, "r") as run_file, open(output_filename, "r") as out_file:
+            with open(input_filename, "r") as in_file, open(run_filename, "r") as run_file, open(output_filename, "r") as out_file:
+                result_table.add(input_filename,COLUMNS.INPUT, in_file.read().strip())
+
                 run_lines = run_file.readlines()
                 out_lines = out_file.readlines()
 
