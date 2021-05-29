@@ -1,4 +1,4 @@
 #+TITLE: Contests
 
 To install, run:
-~pip install -e ./cli/cputils~
+~pip install -e ./cli/~

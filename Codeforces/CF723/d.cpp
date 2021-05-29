@@ -28,9 +28,47 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+typedef long long ll;
+
+void solve() {
+    string s;
+    cin >> s;
+    string C = "ANTO";
+    sort(C.begin(), C.end());
+    string ans = "";
+    ll best_score = -1;
+    do {
+        string curr = s;
+        ll score = 0;
+        string res = "";
+        for (char c : C) {
+            ll inv = 0;
+            string z = "";
+            for (char x : curr) {
+                if (x == c) {
+                    score += inv;
+                    res += x;
+                } else {
+                    inv++;
+                    z += x;
+                }
+            }
+            curr = z;
+        }
+        if (score > best_score) {
+            best_score = score;
+            ans = res;
+        }
+    } while (next_permutation(C.begin(), C.end()));
+    cout << ans << endl;
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+    int t;
+    cin >> t;
+    while (t--) solve();
 }

@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+
+#include <queue>
 using namespace std;
 
 template <typename A, typename B>
@@ -28,9 +30,27 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+typedef long long ll;
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    ll n;
+    cin >> n;
+    priority_queue<ll, vector<ll>, greater<ll>> pq;
+    ll S = 0;
+    for (int i = 0; i < n; i++) {
+        ll x;
+        cin >> x;
+        pq.push(x);
+        S += x;
+        while (S < 0) {
+            S -= pq.top();
+            pq.pop();
+        }
+    }
+    cout << (int)pq.size() << endl;
 }

@@ -9,8 +9,9 @@ from rich.live import Live
 from rich import live
 
 @click.command()
+@click.option("-g", "--gym", is_flag=True, default=False)
 @click.argument("contest_id", nargs=1, type=click.INT)
-def main(contest_id: int):
+def main(contest_id: int, gym):
 
     panel = LivePanel(f"Scraping Codeforces Contest with ID {contest_id}")
     with Live(panel, refresh_per_second=10):
@@ -19,7 +20,7 @@ def main(contest_id: int):
                 panel.add("Samples directory not found.\nCreating samples directory.")
                 os.makedirs("samples")
 
-            contest_url = f"https://codeforces.com/contest/{contest_id}/problems"
+            contest_url = f"https://codeforces.com/{'gym' if gym else 'contest'}/{contest_id}/problems"
             panel.add(f"Requesting from {contest_url}.")
 
             response = requests.get(contest_url)

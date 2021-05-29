@@ -28,9 +28,33 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+typedef long long ll;
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    ll n;
+    cin >> n;
+    vector<ll> a(n);
+    vector<vector<ll>> dp(n, vector<ll>(n + 1, -1));
+    for (auto &x : a) cin >> x;
+    dp[0][0] = 0;
+    if (a[0] >= 0) dp[0][1] = a[0];
+    for (ll i = 1; i < n; i++) {
+        auto next = dp[i - 1];
+        for (ll j = 0; j < n; j++) {
+            if (dp[i - 1][j] != -1 && dp[i - 1][j] + a[i] >= 0)
+                next[j + 1] = max(dp[i - 1][j] + a[i], next[j + 1]);
+        }
+        dbg(next);
+        dp[i] = next;
+    }
+    ll ans = 0;
+    for (ll i = 0; i <= n; i++) {
+        if (dp.back()[i] >= 0) ans = max(ans, i);
+    }
+    cout << ans << endl;
 }

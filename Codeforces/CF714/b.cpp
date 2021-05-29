@@ -41,22 +41,41 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
-void run_case() {
-	int64_t n, k;
-	cin >> n >> k;
-	vector<int64_t> v(n);
-	for (auto &x : v) cin >> x;
+const int64_t MOD = 1e9 + 7;
 
-	int total = v[0];
-	int needed = 0;
-
-	for (int i = 1; i < n; i++) {
-		auto x = v[i];
-
-		needed += max(0LL, 1LL * (100 * x - k * total));
-		total += max(0LL, 1LL * 100 * x - k * total) + x;
+int64_t fact(int n) {
+	int64_t x = 1;
+	for (int i = 1; i <= n; i++) {
+		x *= i;
+		x %= MOD;
 	}
-	cout << needed << endl;
+	return x;
+}
+
+void run_case() {
+	int n;
+	cin >> n;
+	vector<int> a(n);
+	for (auto &x : a) cin >> x;
+	int t = a[0];
+	int zc = 0;
+	for (auto x : a) {
+		t &= x;
+	}
+	for (auto x : a) {
+		if (x == t) zc++;
+	}
+	if (zc < 2) {
+		cout << "0\n";
+		return;
+	}
+	int64_t m = fact(n - 2);
+	dbg(m);
+	m *= zc;
+	m %= MOD;
+	m *= (zc - 1);
+	m %= MOD;
+	cout << m << "\n";
 }
 
 int main() {

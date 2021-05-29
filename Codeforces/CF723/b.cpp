@@ -28,9 +28,26 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int x;
+    cin >> x;
+    for (int i = 0; i <= (x / 111); i++) {
+        if ((x - 111 * i) % 11 == 0) {
+            cout << "YES" << endl;
+            return;
+        }
+    }
+    cout << "NO" << endl;
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }

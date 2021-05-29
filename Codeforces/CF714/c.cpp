@@ -41,22 +41,37 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+const int64_t MOD = 1e9 + 7;
+
 void run_case() {
-	int64_t n, k;
-	cin >> n >> k;
-	vector<int64_t> v(n);
-	for (auto &x : v) cin >> x;
-
-	int total = v[0];
-	int needed = 0;
-
-	for (int i = 1; i < n; i++) {
-		auto x = v[i];
-
-		needed += max(0LL, 1LL * (100 * x - k * total));
-		total += max(0LL, 1LL * 100 * x - k * total) + x;
+	string n;
+	int m;
+	cin >> n >> m;
+	array<int64_t, 10> freq = {};
+	for (char c : n) {
+		freq[c - '0']++;
 	}
-	cout << needed << endl;
+	int64_t ans = 0;
+	while (m >= 10) {
+		array<int64_t, 10> nfreq = {};
+		for (int i = 0; i < 9; i++) {
+			nfreq[i] += freq[i];
+			nfreq[(i + 1) % 10] += freq[i];
+		}
+		nfreq[0] += freq[9];
+		nfreq[1] += freq[9];
+		nfreq[9] += freq[9];
+		for (int i = 0; i < 10; i++) nfreq[i] %= MOD;
+		freq = nfreq;
+		m -= 10;
+	}
+	for (int i = 0; i < m; i++) {
+		int z = 10 - i - 1;
+		freq[z] *= 2;
+		freq[z] %= MOD;
+	}
+	for (int64_t z : freq) ans += z;
+	cout << ans << "\n";
 }
 
 int main() {

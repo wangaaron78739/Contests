@@ -1,4 +1,19 @@
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <chrono>
+#include <climits>
+#include <cmath>
+#include <cstring>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <vector>
 using namespace std;
 
 template <typename A, typename B>
@@ -33,4 +48,13 @@ int main() {
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+    int n;
+    cin >> n;
+    int can = INT_MAX;
+    for (int i = 0; i < n; i++) {
+        int a, b;
+        cin >> a >> b;
+        can = min(can, b / a);
+    }
+    cout << can << endl;
 }

@@ -1,4 +1,18 @@
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstring>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <vector>
 using namespace std;
 
 template <typename A, typename B>
@@ -33,4 +47,26 @@ int main() {
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+    int n, k;
+    cin >> n >> k;
+    unordered_map<string, int> mp, occur;
+
+    for (int i = 0; i < 3 * n + 1; i++) {
+        string s;
+        getline(cin, s);
+        if (s.size() == 0) continue;
+        mp[s]++;
+        occur[s] = i;
+    }
+    vector<pair<string, int>> v(mp.begin(), mp.end());
+    dbg(v);
+    dbg(occur);
+    sort(v.begin(), v.end(), [&](auto a, auto b) {
+        if (a.second > b.second) return true;
+        if (a.second < b.second) return false;
+        return occur[a.first] > occur[b.first];
+    });
+    for (int i = 0; i < min(k, (int)v.size()); i++) {
+        cout << v[i].first << endl;
+    }
 }

@@ -1,4 +1,18 @@
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstring>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <vector>
 using namespace std;
 
 template <typename A, typename B>
@@ -28,9 +42,35 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n, -1);
+    int curr = n;
+    if (k > (n - 1) / 2) {
+        cout << "-1\n";
+        return;
+    }
+    for (int i = 0; i < k; i++) {
+        a[i * 2 + 1] = curr--;
+    }
+    for (int i = 0, c = 1; i < n; i++) {
+        if (a[i] == -1) a[i] = c++;
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << a[i] << " \n"[i == n - 1];
+    }
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }
