@@ -21,3 +21,8 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 libs = ["../../libs/*.cpp"]
+
+[project.scripts]
+codeforces_gen = "cputils.codeforces_gen:main"
+dbrun = "cputils.dbrun:main"
+cf_sample_gen = "cputils.cf_sample_gen:main"
