@@ -6,12 +6,12 @@ import requests
 from bs4 import BeautifulSoup
 from cputils.utils import LivePanel
 from rich.live import Live
-from rich import live
+
 
 @click.command()
 @click.option("-g", "--gym", is_flag=True, default=False)
 @click.argument("contest_id", nargs=1, type=click.INT)
-def main(contest_id: int, gym):
+def main(contest_id: int, gym: bool):
 
     panel = LivePanel(f"Scraping Codeforces Contest with ID {contest_id}")
     with Live(panel, refresh_per_second=10):
@@ -31,19 +31,25 @@ def main(contest_id: int, gym):
             problems = soup.find_all("div", class_="problemindexholder")
 
             if len(problems) == 0:
-                raise Exception(f"No Problems found")
-                
+                raise Exception("No Problems found")
 
             for problem in problems:
                 problem_id = problem["problemindex"].lower()
                 panel.add(f"Parsing problem {problem_id}.")
-                sample_inputs = map(lambda x: x.find("pre").contents[0], problem.find_all("div", class_="input"))
-                sample_outputs = map(lambda x: x.find("pre").contents[0], problem.find_all("div", class_="output"))
+                sample_inputs = map(
+                    lambda x: x.find("pre").contents[0],
+                    problem.find_all("div", class_="input"),
+                )
+                sample_outputs = map(
+                    lambda x: x.find("pre").contents[0],
+                    problem.find_all("div", class_="output"),
+                )
                 for idx, (inp, out) in enumerate(zip(sample_inputs, sample_outputs)):
                     filename = f"{problem_id}-{idx}"
-                    with open(f"samples/{filename}.in", "w") as infile, open(f"samples/{filename}.out", "w") as outfile:
+                    with open(f"samples/{filename}.in", "w") as infile, open(
+                        f"samples/{filename}.out", "w"
+                    ) as outfile:
                         infile.write(inp.strip())
                         outfile.write(out.strip())
         except Exception as err:
             panel.add_error(f"{err}.")
-

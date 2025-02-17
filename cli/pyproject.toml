@@ -1,0 +1,23 @@
+[project]
+name = "cputils"
+version = "0.1.0"
+description = "utils for competitive programming"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.13.3",
+    "click>=8.1.8",
+    "requests>=2.32.3",
+    "rich>=13.9.4",
+]
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.27.1",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+libs = ["../../libs/*.cpp"]
