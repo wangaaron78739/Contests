@@ -44,3 +44,5 @@
 
 # Ignore run output
 run_*.out
+
+**/samples/**
