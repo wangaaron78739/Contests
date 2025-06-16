@@ -42,9 +42,38 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    // Implement case here
+    int n;
+    cin >> n;
+    vector<int> a(n), b(n);
+    for (auto &x : a) cin >> x;
+    for (auto &x : b) cin >> x;
+    auto A = set<int>(a.begin(), a.end());
+    auto B = set<int>(b.begin(), b.end());
+    set<int> C;
+    for (auto x : A) {
+        for (auto y : B) {
+            if (!C.count(x + y)) {
+                C.insert(x + y);
+            }
+            if (C.size() >= 3) {
+                cout << "YES\n";
+                return;
+            }
+        }
+    }
+    cout << "NO\n";
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }

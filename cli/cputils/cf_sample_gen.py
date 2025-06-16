@@ -21,7 +21,7 @@ def main(contest_id: int, gym: bool):
                 os.makedirs("samples")
 
             contest_url = f"https://codeforces.com/{'gym' if gym else 'contest'}/{contest_id}/problems"
-            panel.add(f"Requesting from {contest_url}.")
+            panel.add(f"Requesting from {contest_url}")
 
             response = requests.get(contest_url)
             if response.status_code != 200:

@@ -26,3 +26,4 @@ libs = ["../../libs/*.cpp"]
 codeforces_gen = "cputils.codeforces_gen:main"
 dbrun = "cputils.dbrun:main"
 cf_sample_gen = "cputils.cf_sample_gen:main"
+runsamples = "cputils.runsamples:main"

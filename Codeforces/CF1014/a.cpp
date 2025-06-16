@@ -42,9 +42,23 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (auto &x : a) cin >> x;
+    sort(a.begin(), a.end());
+    cout << a.back() - a.front() << endl;
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }

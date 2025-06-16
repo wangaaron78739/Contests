@@ -42,9 +42,31 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    int curr = 0;
+    int total = 0;
+    for (char c : s) {
+        if (c == curr + '0') {
+            continue;
+        }
+        total++;
+        curr = !curr;
+    }
+    cout << total << endl;
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }

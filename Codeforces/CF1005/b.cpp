@@ -42,9 +42,51 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    map<int, int> freq;
+    for (auto &x : a) {
+        cin >> x;
+        freq[x]++;
+    }
+    vector<int> can(n);
+    for (int i = 0; i < n; i++) {
+        can[i] = freq[a[i]] == 1;
+    }
+    int score = n - freq.size();
+
+    // remove duplicate bad, remove single ok
+    int i = 0;
+    int has = 0;
+    int best_i = 0, best_j = 0;
+    for (int j = 0; j < n; j++) {
+        if (can[j]) {
+            if (best_j - best_i + 1 <= j - i + 1) {
+                best_i = i;
+                best_j = j;
+                has = 1;
+            }
+        } else {
+            i = j + 1;
+        }
+    }
+    if (has || n == 1) {
+        cout << best_i + 1 << " " << best_j + 1 << endl;
+    } else {
+        cout << 0 << endl;
+    }
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }

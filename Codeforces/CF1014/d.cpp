@@ -42,9 +42,60 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    map<char, int> freq;
+    for (char c : s) freq[c]++;
+    if (freq.size() == 1) {
+        cout << "-1" << endl;
+        return;
+    }
+    auto [_, min_value] =
+        *min_element(freq.begin(), freq.end(),
+                     [](auto a, auto b) { return a.second < b.second; });
+    for (auto &[k, v] : freq) {
+        v -= min_value;
+    }
+    int ans = 0;
+    auto valid = [&]() {
+        return freq['T'] == freq['I'] && freq['L'] == freq['T'];
+    };
+    auto third = [](char a, char b) -> char {
+        for (char c : {'T', 'I', 'L'}) {
+            if (c != a && c != b) {
+                return c;
+            }
+        }
+        std::abort();
+    };
+    for (int i = 0; i < n - 1; i++) {
+        if (valid()) {
+            cout << ans << endl;
+            return;
+        }
+        int x = s[i];
+        int y = s[i + 1];
+        if (x == y) {
+            continue;
+        }
+        char z = third(x, y);
+        if (freq[z]) {
+            freq[z]--;
+        }
+    }
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }

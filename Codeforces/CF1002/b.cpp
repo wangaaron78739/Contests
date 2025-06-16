@@ -42,9 +42,36 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
+    for (auto &x : a) cin >> x;
+
+    for (int i = 0; i <= n - k + 1; i++) {
+        if (a[i] != 1) {
+            cout << "1\n";
+            return;
+        }
+    }
+    for (int i = 2; i <= k / 2; i++) {
+        if (a[n - k + ((i - 1) * 2)] != i ||
+            a[n - k + ((i - 1) * 2) + 1] != i) {
+            cout << i << endl;
+            return;
+        }
+    }
+    cout << k / 2 + 1 << endl;
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }

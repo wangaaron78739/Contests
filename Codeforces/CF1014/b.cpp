@@ -42,9 +42,31 @@ void dbg_out(Head H, Tail... T) {
 #define dbg(...)
 #endif
 
+void run_case() {
+    int n;
+    string a, b;
+    cin >> n >> a >> b;
+    int x = 0, y = 0;
+    for (int i = 0; i < n; i++) {
+        if (i % 2 == 0) {
+            x += a[i] == '1';
+            y += b[i] == '1';
+        } else {
+            y += a[i] == '1';
+            x += b[i] == '1';
+        }
+    }
+    cout << ((x <= n / 2 && y <= (n + 1) / 2) ? "YES" : "NO") << endl;
+}
+
 int main() {
     ios::sync_with_stdio(false);
 #ifndef AARON_DEBUG
     cin.tie(nullptr);
 #endif
+
+    int tests;
+    cin >> tests;
+
+    while (tests-- > 0) run_case();
 }
